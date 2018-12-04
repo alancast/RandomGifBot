@@ -4,5 +4,4 @@ node_modules/
 .env
 
 # Files to readd later once we figure out how to deal with the secrets
-publish.js
 RandomGifBot.bot
