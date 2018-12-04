@@ -2,24 +2,25 @@
 // Licensed under the MIT License.
 
 // Import required packages
-const path = require('path');
-const restify = require('restify');
+import * as path from 'path';
+import * as restify from 'restify';
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbuilder');
-// Import required bot configuration.
-const { BotConfiguration } = require('botframework-config');
+import { BotFrameworkAdapter, ConversationState, MemoryStorage } from 'botbuilder';
 
-const { EchoBot } = require('./bot');
+// Import required bot configuration.
+import { BotConfiguration } from 'botframework-config';
+
+import { EchoBot } from './bot';
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
+const ENV_FILE = path.join(__dirname, '..', '.env');
+const env = require('dotenv').config({ path: ENV_FILE });
 
 // Get the .bot file path
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
-const BOT_FILE = path.join(__dirname, (process.env.botFilePath || ''));
+const BOT_FILE = path.join(__dirname, '..', (process.env.botFilePath || ''));
 let botConfig;
 try {
     // Read bot configuration from .bot file.
@@ -33,10 +34,10 @@ try {
 }
 
 // For local development configuration as defined in .bot file
-const DEV_ENVIRONMENT = 'development';
+const DEV_ENVIRONMENT : string = 'development';
 
 // Define name of the endpoint configuration section from the .bot file
-const BOT_CONFIGURATION = (process.env.NODE_ENV || DEV_ENVIRONMENT);
+const BOT_CONFIGURATION : string = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Get bot endpoint configuration by service name
 // Bot configuration as defined in .bot file
@@ -93,15 +94,15 @@ const bot = new EchoBot(conversationState);
 
 // Create HTTP server
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
+server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo talk to your bot, open echoBot-with-counter.bot file in the Emulator`);
+    console.log(`\nTo talk to your bot, open .bot file in the Emulator`);
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
+    adapter.processActivity(req, res, async (context : any) => {
         // route to main dialog.
         await bot.onTurn(context);
     });

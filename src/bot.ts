@@ -3,17 +3,22 @@
 
 // bot.js is your bot's main entry point to handle incoming activities.
 
-const { ActivityTypes } = require('botbuilder');
+import { ActivityTypes, StatePropertyAccessor, ConversationState } from 'botbuilder';
 
 // Turn counter property
-const TURN_COUNTER_PROPERTY = 'turnCounterProperty';
+const TURN_COUNTER_PROPERTY: string = 'turnCounterProperty';
 
-class EchoBot {
+export class EchoBot {
+
+    private countProperty: any;
+
+    private conversationState: ConversationState;
+    
     /**
      *
      * @param {ConversationState} conversation state object
      */
-    constructor(conversationState) {
+    constructor(conversationState : ConversationState) {
         // Creates a new state accessor property.
         // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
         this.countProperty = conversationState.createProperty(TURN_COUNTER_PROPERTY);
@@ -44,5 +49,3 @@ class EchoBot {
         await this.conversationState.saveChanges(turnContext);
     }
 }
-
-exports.EchoBot = EchoBot;
