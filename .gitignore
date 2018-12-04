@@ -1,0 +1,8 @@
+.vscode/
+node_modules/
+*.js.map
+.env
+
+# Files to readd later once we figure out how to deal with the secrets
+publish.js
+RandomGifBot.bot
