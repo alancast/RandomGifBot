@@ -44,19 +44,14 @@ let appId: string;
 let appPassword: string;
 // Get bot endpoint configuration by service name
 // Bot configuration as defined in .bot file
-try {
-    const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION) as IEndpointService;
-    appId = endpointConfig.appId;
-    appPassword = endpointConfig.appPassword;
-} catch (e) {
-    console.log("Could not find bot file or service name" + BOT_CONFIGURATION);
-}
+
+const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION) as IEndpointService;
 
 // Create bot adapter.
 // See https://aka.ms/about-bot-adapter to learn more about bot adapter.
 const adapter = new BotFrameworkAdapter({
-    appId: appId || process.env.microsoftAppID,
-    appPassword: appPassword || process.env.microsoftAppPassword,
+    appId: endpointConfig.appId || process.env.microsoftAppID,
+    appPassword: endpointConfig.appPassword || process.env.microsoftAppPassword,
     channelService: process.env.ChannelService,
     openIdMetadata: process.env.BotOpenIdMetadata,
 });
