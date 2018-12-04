@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// bot.js is your bot's main entry point to handle incoming activities.
+// bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, StatePropertyAccessor, ConversationState } from 'botbuilder';
+import { ActivityTypes, ConversationState, StatePropertyAccessor, TurnContext } from 'botbuilder';
 
 // Turn counter property
 const TURN_COUNTER_PROPERTY: string = 'turnCounterProperty';
 
-export class EchoBot {
+export class GifBot {
 
-    private countProperty: any;
+    private countProperty: StatePropertyAccessor<number>;
 
     private conversationState: ConversationState;
-    
+
     /**
      *
      * @param {ConversationState} conversation state object
      */
-    constructor(conversationState : ConversationState) {
+    constructor(conversationState: ConversationState) {
         // Creates a new state accessor property.
         // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
         this.countProperty = conversationState.createProperty(TURN_COUNTER_PROPERTY);
@@ -30,13 +30,13 @@ export class EchoBot {
      *
      * @param {TurnContext} on turn context object.
      */
-    async onTurn(turnContext) {
+    public async onTurn(turnContext: TurnContext) {
         // Handle message activity type. User's responses via text or speech or card interactions flow back to the bot as Message activity.
         // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (turnContext.activity.type === ActivityTypes.Message) {
             // read from state.
-            let count = await this.countProperty.get(turnContext);
+            let count: number = await this.countProperty.get(turnContext);
             count = count === undefined ? 1 : ++count;
             await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
             // increment and set turn counter.
