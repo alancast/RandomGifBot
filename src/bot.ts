@@ -3,7 +3,7 @@
 
 // bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, CardFactory, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActivityTypes, CardAction, CardFactory, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
 
 import { GiphyService } from './giphyService';
 
@@ -42,22 +42,40 @@ export class GifBot {
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (turnContext.activity.type === ActivityTypes.Message) {
 
-            const input = turnContext.activity.text;
+            if (turnContext.activity.value && turnContext.activity.value.isDelete) {
+                const messageId = turnContext.activity.replyToId;
 
-            console.log(`Got query ${input}`);
-
-            const giphyUrl = await this.giphyService.getRandomGifUrl(input);
-
-            if (giphyUrl) {
-                const cardAttachment = CardFactory.heroCard(input, [giphyUrl], ['Delete']);
-                const reply = MessageFactory.attachment(cardAttachment);
-
-                // Send the gif to the user.
-                await turnContext.sendActivity(reply);
+                console.log(`Got request to delete activity: ${messageId}`);
+                turnContext.deleteActivity(messageId);
             } else {
-                await turnContext.sendActivity('Sorry, no gifs were found.');
-            }
 
+                const input = turnContext.activity.text;
+
+                console.log(`Got query ${input}`);
+
+                const giphyUrl = await this.giphyService.getRandomGifUrl(input);
+
+                if (giphyUrl) {
+                    const cardDeleteAction = {
+                        channelData: {},
+                        displayText: 'I clicked the delete button',
+                        text: 'User just clicked the MessageBack button',
+                        title: 'Delete Image',
+                        type: 'messageBack',
+                        value: {
+                            isDelete: true,
+                        },
+                    };
+
+                    const cardAttachment = CardFactory.heroCard(input, [giphyUrl], [cardDeleteAction]);
+                    const reply = MessageFactory.attachment(cardAttachment);
+
+                    // Send the gif to the user.
+                    await turnContext.sendActivity(reply);
+                } else {
+                    await turnContext.sendActivity('Sorry, no gifs were found.');
+                }
+            }
         } else {
             console.log(`Got unexpected message type ${turnContext.activity.type}`);
         }
