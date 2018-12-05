@@ -64,7 +64,7 @@ export class GifBot {
     public getInternetAttachment(imageUrl: string) {
         return {
             name: 'YourGif',
-            contentType: 'image/png',
+            contentType: 'image/gif',
             contentUrl: imageUrl 
         }
     }
