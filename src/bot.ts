@@ -3,7 +3,7 @@
 
 // bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActivityTypes, CardFactory, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
 
 import { GiphyService } from './giphyService';
 
@@ -42,16 +42,20 @@ export class GifBot {
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (turnContext.activity.type === ActivityTypes.Message) {
 
-            console.log(`Got query ${turnContext.activity.text}`);
+            const input = turnContext.activity.text;
 
-            const giphyUrl = await this.giphyService.getRandomGifUrl(turnContext.activity.text);
+            console.log(`Got query ${input}`);
+
+            const giphyUrl = await this.giphyService.getRandomGifUrl(input);
 
             if (giphyUrl) {
-                const reply = MessageFactory.attachment(this.getInternetAttachment(giphyUrl));
+                const cardAttachment = CardFactory.heroCard(input, [giphyUrl], ['Delete']);
+                const reply = MessageFactory.attachment(cardAttachment);
+
                 // Send the gif to the user.
                 await turnContext.sendActivity(reply);
             } else {
-                await turnContext.sendActivity("Sorry, no gifs were found.");
+                await turnContext.sendActivity('Sorry, no gifs were found.');
             }
 
         } else {
