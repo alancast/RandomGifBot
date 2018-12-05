@@ -42,6 +42,7 @@ const BOT_CONFIGURATION: string = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
 // Get bot endpoint configuration by service name
 // Bot configuration as defined in .bot file
+
 const endpointConfig = botConfig.findServiceByNameOrId(BOT_CONFIGURATION) as IEndpointService;
 
 // Create bot adapter.
