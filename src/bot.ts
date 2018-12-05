@@ -37,8 +37,6 @@ export class GifBot {
                     const cardTitle: string = `Random GIF for "${text}" as requested by ${message.from.name}`;
                     const cardDeleteAction = {
                         channelData: {},
-                        displayText: 'I clicked the delete button',
-                        text: 'User just clicked the MessageBack button',
                         title: 'Delete Image',
                         type: 'messageBack',
                         value: {
