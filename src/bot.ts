@@ -3,16 +3,14 @@
 
 // bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, CardAction, CardFactory, ConversationState, MessageFactory, TurnContext } from 'botbuilder';
+import { ActivityTypes, CardAction, CardFactory, MessageFactory, TurnContext } from 'botbuilder';
 
 import { GiphyService } from './giphyService';
 
 export class GifBot {
-    private conversationState: ConversationState;
     private giphyService: GiphyService;
 
-    constructor(conversationState: ConversationState) {
-        this.conversationState = conversationState;
+    constructor() {
         this.giphyService = new GiphyService();
     }
 
@@ -35,7 +33,7 @@ export class GifBot {
 
                 if (giphyUrl) {
                     const cardTitle: string = `Random GIF for "${text}" as requested by ${message.from.name}`;
-                    const cardDeleteAction = {
+                    const cardDeleteAction: CardAction = {
                         channelData: {},
                         title: 'Delete Image',
                         type: 'messageBack',

@@ -45,8 +45,6 @@ export class GiphyService {
     return uri;
   }
 
-
-
   private handleError(error: AxiosError) {
     if (error.response) {
       console.log(error.response.data);

@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
 
-import { BotFrameworkAdapter, ConversationState, MemoryStorage, TurnContext } from 'botbuilder';
+import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { BotConfiguration, IEndpointService } from 'botframework-config';
 import { GifBot } from './bot';
 
@@ -58,24 +58,10 @@ adapter.onTurnError = async (context: TurnContext, error: Error) => {
   console.error(`\n [onTurnError]: ${error}`);
   // Send a message to the user
   await context.sendActivity(`Oops. Something went wrong!`);
-  // Clear out state
-  await conversationState.clear(context);
-  // Save state changes.
-  await conversationState.saveChanges(context);
 };
 
-// Define a state store for your bot.
-// A bot requires a state store to persist the dialog and user state between messages.
-let conversationState: ConversationState;
-
-// For local development, in-memory storage is used.
-// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
-// is restarted, anything stored in memory will be gone.
-const memoryStorage = new MemoryStorage();
-conversationState = new ConversationState(memoryStorage);
-
 // Create the main dialog.
-const bot = new GifBot(conversationState);
+const bot = new GifBot();
 
 // Create HTTP server
 const server: restify.Server = restify.createServer();
