@@ -41,22 +41,21 @@ export class GifBot {
         // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
         // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
         if (turnContext.activity.type === ActivityTypes.Message) {
-            // read from state.
-            let count: number = await this.countProperty.get(turnContext);
-            count = count === undefined ? 1 : ++count;
-            await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
 
-            // increment and set turn counter.
-            await this.countProperty.set(turnContext, count);
+            console.log(`Got query ${turnContext.activity.text}`);
 
             const giphyUrl = await this.giphyService.getRandomGifUrl(turnContext.activity.text);
-            const reply = MessageFactory.attachment(this.getInternetAttachment(giphyUrl));
-            // Send the gif to the user.
-            await turnContext.sendActivity(reply);
+
+            if (giphyUrl) {
+                const reply = MessageFactory.attachment(this.getInternetAttachment(giphyUrl));
+                // Send the gif to the user.
+                await turnContext.sendActivity(reply);
+            } else {
+                await turnContext.sendActivity("Sorry, no gifs were found.");
+            }
 
         } else {
-            // Generic handler for all other activity types.
-            await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
+            console.log(`Got unexpected message type ${turnContext.activity.type}`);
         }
         // Save state changes
         await this.conversationState.saveChanges(turnContext);
