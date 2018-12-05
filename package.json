@@ -1,7 +1,7 @@
 {
-  "name": "echobot-with-counter",
+  "name": "gifbot",
   "version": "1.0.0",
-  "description": "Bot Builder v4 echo bot sample",
+  "description": "A cute little bot friend who gives your team random GIFs of whatever you ask for",
   "main": "index.js",
   "scripts": {
     "build": "node_modules/.bin/tsc --build",
