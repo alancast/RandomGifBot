@@ -60,12 +60,4 @@ export class GifBot {
         // Save state changes
         await this.conversationState.saveChanges(turnContext);
     }
-
-    public getInternetAttachment(imageUrl: string) {
-        return {
-            name: 'YourGif',
-            contentType: 'image/gif',
-            contentUrl: imageUrl 
-        }
-    }
 }
