@@ -3,7 +3,7 @@
 
 // bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext, CardFactory } from 'botbuilder';
+import { ActivityTypes, CardFactory, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
 
 import { GiphyService } from './giphyService';
 
@@ -55,7 +55,7 @@ export class GifBot {
                 // Send the gif to the user.
                 await turnContext.sendActivity(reply);
             } else {
-                await turnContext.sendActivity("Sorry, no gifs were found.");
+                await turnContext.sendActivity('Sorry, no gifs were found.');
             }
 
         } else {
