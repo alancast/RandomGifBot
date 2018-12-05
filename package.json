@@ -13,6 +13,7 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "botbuilder": "^4.1.5",
     "botbuilder-azure": "^4.1.5",
     "botframework-config": "^4.1.5",
