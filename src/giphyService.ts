@@ -4,6 +4,11 @@ export class GiphyService {
   private static readonly giphyBaseUri: string = 'https://api.giphy.com/v1/gifs/search?api_key=';
   private static readonly giphyLimit: number = 9;
   private static readonly giphyRating: string = 'g';
+
+  private static randomGifIndex(arraySize: number) {
+    return Math.floor(Math.random() * Math.min(GiphyService.giphyLimit, arraySize));
+  }
+
   private giphyApiKey: string = process.env.giphyApiKey;
 
   constructor(giphyApiKey?: string) {
@@ -21,7 +26,7 @@ export class GiphyService {
       const gifs: any[] = result.data.data;
 
       if (gifs.length > 0) {
-        const index: number = Math.floor(Math.random() * Math.min(GiphyService.giphyLimit, gifs.length));
+        const index = GiphyService.randomGifIndex(gifs.length);
         console.log(gifs[index].images.original.url);
         gifUrl = gifs[index].images.original.url;
       }
@@ -39,6 +44,8 @@ export class GiphyService {
 
     return uri;
   }
+
+
 
   private handleError(error: AxiosError) {
     if (error.response) {
