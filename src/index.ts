@@ -40,8 +40,6 @@ const DEV_ENVIRONMENT: string = 'development';
 // Define name of the endpoint configuration section from the .bot file
 const BOT_CONFIGURATION: string = (process.env.NODE_ENV || DEV_ENVIRONMENT);
 
-let appId: string;
-let appPassword: string;
 // Get bot endpoint configuration by service name
 // Bot configuration as defined in .bot file
 
