@@ -3,65 +3,44 @@
 
 // bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, CardFactory, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActivityTypes, CardFactory, ConversationState, MessageFactory, TurnContext } from 'botbuilder';
 
 import { GiphyService } from './giphyService';
 
-// Turn counter property
-const TURN_COUNTER_PROPERTY: string = 'turnCounterProperty';
-
 export class GifBot {
+  private conversationState: ConversationState;
+  private giphyService: GiphyService;
 
-    private countProperty: StatePropertyAccessor<number>;
+  constructor(conversationState: ConversationState) {
+    this.conversationState = conversationState;
+    this.giphyService = new GiphyService();
+  }
 
-    private conversationState: ConversationState;
+  // Use onTurn to handle an incoming activity, received from a user, process it, and reply as needed
+  public async onTurn(turnContext: TurnContext) {
+    // Handle Message activity type
+    if (turnContext.activity.type === ActivityTypes.Message) {
+      const message = turnContext.activity;
+      const text = message.text;
+      console.log(`Got query ${text}`);
+      const giphyUrl = await this.giphyService.getRandomGifUrl(text);
 
-    private giphyService: GiphyService;
+      if (giphyUrl) {
+        const cardTitle: string = `Random GIF for "${text}" as requested by ${message.from.name}`;
+        const cardAttachment = CardFactory.heroCard(cardTitle, [giphyUrl], ['Delete']);
+        const reply = MessageFactory.attachment(cardAttachment);
 
-    /**
-     *
-     * @param {ConversationState} conversation state object
-     */
-    constructor(conversationState: ConversationState) {
-        // Creates a new state accessor property.
-        // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
-        this.countProperty = conversationState.createProperty(TURN_COUNTER_PROPERTY);
-        this.conversationState = conversationState;
-
-        this.giphyService = new GiphyService();
+        // Send the gif to the user.
+        await turnContext.sendActivity(reply);
+      } else {
+        // Handle all other activity types
+        await turnContext.sendActivity(`Sorry, no GIF was found for "${text}".`);
+      }
+    } else {
+      console.log(`Got unexpected message type ${turnContext.activity.type}`);
     }
-    /**
-     *
-     * Use onTurn to handle an incoming activity, received from a user, process it, and reply as needed
-     *
-     * @param {TurnContext} on turn context object.
-     */
-    public async onTurn(turnContext: TurnContext) {
-        // Handle message activity type. User's responses via text or speech or card interactions flow back to the bot as Message activity.
-        // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
-        // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
-        if (turnContext.activity.type === ActivityTypes.Message) {
 
-            const input = turnContext.activity.text;
-
-            console.log(`Got query ${input}`);
-
-            const giphyUrl = await this.giphyService.getRandomGifUrl(input);
-
-            if (giphyUrl) {
-                const cardAttachment = CardFactory.heroCard(input, [giphyUrl], ['Delete']);
-                const reply = MessageFactory.attachment(cardAttachment);
-
-                // Send the gif to the user.
-                await turnContext.sendActivity(reply);
-            } else {
-                await turnContext.sendActivity('Sorry, no gifs were found.');
-            }
-
-        } else {
-            console.log(`Got unexpected message type ${turnContext.activity.type}`);
-        }
-        // Save state changes
-        await this.conversationState.saveChanges(turnContext);
-    }
+    // Save state changes
+    await this.conversationState.saveChanges(turnContext);
+  }
 }
