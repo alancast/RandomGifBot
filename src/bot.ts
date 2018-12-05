@@ -3,7 +3,9 @@
 
 // bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, ConversationState, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActivityTypes, ConversationState, MessageFactory, StatePropertyAccessor, TurnContext } from 'botbuilder';
+
+import { GiphyService } from './giphyService';
 
 // Turn counter property
 const TURN_COUNTER_PROPERTY: string = 'turnCounterProperty';
@@ -14,6 +16,8 @@ export class GifBot {
 
     private conversationState: ConversationState;
 
+    private giphyService: GiphyService;
+
     /**
      *
      * @param {ConversationState} conversation state object
@@ -23,6 +27,8 @@ export class GifBot {
         // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors
         this.countProperty = conversationState.createProperty(TURN_COUNTER_PROPERTY);
         this.conversationState = conversationState;
+
+        this.giphyService = new GiphyService();
     }
     /**
      *
@@ -39,13 +45,28 @@ export class GifBot {
             let count: number = await this.countProperty.get(turnContext);
             count = count === undefined ? 1 : ++count;
             await turnContext.sendActivity(`${ count }: You said "${ turnContext.activity.text }"`);
+
             // increment and set turn counter.
             await this.countProperty.set(turnContext, count);
+
+            const giphyUrl = await this.giphyService.getRandomGifUrl(turnContext.activity.text);
+            const reply = MessageFactory.attachment(this.getInternetAttachment(giphyUrl));
+            // Send the gif to the user.
+            await turnContext.sendActivity(reply);
+
         } else {
             // Generic handler for all other activity types.
             await turnContext.sendActivity(`[${ turnContext.activity.type } event detected]`);
         }
         // Save state changes
         await this.conversationState.saveChanges(turnContext);
+    }
+
+    public getInternetAttachment(imageUrl: string) {
+        return {
+            name: 'YourGif',
+            contentType: 'image/png',
+            contentUrl: imageUrl 
+        }
     }
 }
