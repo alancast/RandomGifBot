@@ -1,51 +1,52 @@
-import axios, {AxiosError, AxiosResponse} from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 export class GiphyService {
+  private static readonly giphyBaseUri: string = 'https://api.giphy.com/v1/gifs/search?api_key=';
+  private static readonly giphyLimit: number = 9;
+  private static readonly giphyRating: string = 'g';
+  private giphyApiKey: string = process.env.giphyApiKey;
 
-    private static readonly giphyBaseUri: string = 'https://api.giphy.com/v1/gifs/search?api_key=';
+  constructor(giphyApiKey?: string) {
+    if (giphyApiKey) {
+      this.giphyApiKey = giphyApiKey;
+    }
+  }
 
-    private static readonly giphyLimit: number = 1;
+  public async getRandomGifUrl(query: string) {
+    const requestUri = this.createRequestUri(query);
 
-    private static readonly giphyRating: string = 'g';
+    let gifUrl: string;
+    try {
+      const result = (await axios.get(requestUri).catch(this.handleError)) as AxiosResponse;
+      const gifs: any[] = result.data.data;
 
-    private giphyApiKey: string = process.env.giphyApiKey;
-
-    constructor(giphyApiKey?: string) {
-        if (giphyApiKey) {
-            this.giphyApiKey = giphyApiKey;
-        }
+      if (gifs.length > 0) {
+        const index: number = Math.floor(Math.random() * Math.min(GiphyService.giphyLimit, gifs.length));
+        console.log(gifs[index].images.original.url);
+        gifUrl = gifs[index].images.original.url;
+      }
+    } catch (e) {
+      this.handleError(e);
     }
 
-    public async getRandomGifUrl(query: string) {
-        const requestUri = this.createRequestUri(query);
+    return gifUrl;
+  }
 
-        let gifUrl: string;
+  private createRequestUri(query: string) {
+    const uri: string =
+      `${GiphyService.giphyBaseUri}${this.giphyApiKey}` +
+      `&limit=${GiphyService.giphyLimit}&rating=${GiphyService.giphyRating}&q=${query}`;
 
-        try {
-            const result = await axios.get(requestUri).catch(this.handleError) as AxiosResponse;
-            console.log(result.data.data[0].images.original.url);
-            gifUrl = result.data.data[0].images.original.url;
-        } catch (e) {
-            this.handleError(e);
-        }
+    return uri;
+  }
 
-        return gifUrl;
+  private handleError(error: AxiosError) {
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else {
+      console.log(error.message);
     }
-
-    private createRequestUri(query: string) {
-        const uri: string = `${GiphyService.giphyBaseUri}${this.giphyApiKey}` +
-            `&limit=${GiphyService.giphyLimit}&rating=${GiphyService.giphyRating}&q=${query}`;
-
-        return uri;
-    }
-
-    private handleError(error: AxiosError) {
-        if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          } else {
-            console.log(error.message);
-          }
-    }
+  }
 }
