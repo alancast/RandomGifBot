@@ -6,7 +6,7 @@ export class GiphyService {
   private static readonly giphyRating: string = 'g';
 
   private static randomGifIndex(arraySize: number) {
-    return Math.floor(Math.random() * Math.min(GiphyService.giphyLimit, arraySize));
+    return Math.floor(Math.random() * arraySize);
   }
 
   private giphyApiKey: string = process.env.giphyApiKey;
