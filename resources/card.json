@@ -1,0 +1,32 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Publish Adaptive Card schema",
+                    "weight": "bolder",
+                    "size": "medium"
+                },
+                {
+                    "type": "Image",
+                    "url": "https://media.giphy.com/media/9rapIAIy6t2Xb0XU4Q/giphy.gif"
+                },
+                {
+                    "type": "Action.Submit",
+                    "title": "Delete",
+                    "data": {
+                        "msteams": {
+                            "type": "messageBack",
+                            "value": {}
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

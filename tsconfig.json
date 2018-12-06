@@ -6,7 +6,8 @@
       "module": "commonjs",
       "outDir": "./lib",
       "resolveJsonModule": true,
-      "rootDir": "./src",
+      "rootDir": ".",
       "sourceMap": true
-    }
+    },
+    "include": ["src/**/*","resources/**/*.json"],
   }
