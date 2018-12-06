@@ -3,11 +3,16 @@
 
 // bot.js is the main entry point to handle incoming activities.
 
-import { ActivityTypes, CardAction, CardFactory, MessageFactory, TurnContext } from 'botbuilder';
-
+import { Activity, ActivityTypes, CardFactory, MessageFactory, TurnContext } from 'botbuilder';
+import { GiphyAction } from './giphyAction';
+import { GiphyCardAction } from './giphyCardAction';
 import { GiphyService } from './giphyService';
 
 export class GifBot {
+
+    // regex used to remove all @tags from raw input (e.g. @Gifbot)
+    private static readonly atTagRegex: RegExp = /<at>.*<\/at>/g;
+
     private giphyService: GiphyService;
 
     constructor() {
@@ -16,43 +21,74 @@ export class GifBot {
 
     // Use onTurn to handle an incoming activity, received from a user, process it, and reply as needed
     public async onTurn(turnContext: TurnContext) {
+        const message = turnContext.activity;
+
         // Handle Message activity type
-        if (turnContext.activity.type === ActivityTypes.Message) {
-            const message = turnContext.activity;
+        if (message.type === ActivityTypes.Message) {
 
-            if (message.value && message.value.isDelete) {
-                const messageId = message.replyToId;
-
-                console.log(`Got request to delete activity: ${messageId}`);
-                turnContext.deleteActivity(messageId);
+            if (this.isCardAction(message)) {
+                await this.handleCardAction(turnContext, message);
             } else {
-
-                const text = message.text;
-                console.log(`Got query ${text}`);
-                const giphyUrl = await this.giphyService.getRandomGifUrl(text);
-
-                if (giphyUrl) {
-                    const cardTitle: string = `Random GIF for "${text}" as requested by ${message.from.name}`;
-                    const cardDeleteAction: CardAction = {
-                        channelData: {},
-                        title: 'Delete Image',
-                        type: 'messageBack',
-                        value: {
-                            isDelete: true,
-                        },
-                    };
-                    const cardAttachment = CardFactory.heroCard(cardTitle, [giphyUrl], [cardDeleteAction]);
-                    const reply = MessageFactory.attachment(cardAttachment);
-
-                    // Send the gif to the user.
-                    await turnContext.sendActivity(reply);
-                } else {
-                    // Handle all other activity types
-                    await turnContext.sendActivity(`Sorry, no GIF was found for "${text}".`);
-                }
+                await this.handleNewRequest(turnContext, message);
             }
+
         } else {
             console.log(`Got unexpected message type ${turnContext.activity.type}`);
         }
+    }
+
+    private isCardAction(message: Activity): boolean {
+        return message.replyToId && message.value;
+    }
+
+    private async handleCardAction(turnContext: TurnContext, message: Activity) {
+        const replyValue = message.value;
+
+        switch (replyValue.giphyAction) {
+            case (GiphyAction.Delete):
+                const replyToId = message.replyToId;
+                console.log(`Got request to delete activity: ${replyToId}`);
+                turnContext.deleteActivity(replyToId);
+                break;
+            default:
+                console.log(`Got unknown message with message.value ${JSON.stringify(message)}`);
+        }
+    }
+
+    private async handleNewRequest(turnContext: TurnContext, message: Activity) {
+        const rawText = message.text;
+        console.log(`Got query ${rawText}`);
+
+        const cleanedText = this.cleanInputString(rawText);
+        const giphyUrl = await this.giphyService.getRandomGifUrl(cleanedText);
+
+        if (giphyUrl) {
+            const cardTitle: string = `Random GIF for "${cleanedText}" as requested by ${message.from.name}`;
+            const reply = this.generateGiphyCardResponse(cardTitle, giphyUrl);
+            await turnContext.sendActivity(reply);
+        } else {
+            await turnContext.sendActivity(MessageFactory.text(`Sorry, no GIF was found for "${cleanedText}".`));
+        }
+    }
+
+    private generateGiphyCardResponse(cardTitle: string, giphyUrl: string): Partial<Activity> {
+        const cardAttachment = CardFactory.heroCard(
+            cardTitle,
+            [giphyUrl],
+            [GiphyCardAction.deleteCardAction]);
+
+        const reply = MessageFactory.attachment(cardAttachment);
+
+        return reply;
+    }
+
+    private cleanInputString(rawText: string): string {
+        const result = this.removeAtTags(rawText).trim();
+        return result;
+    }
+
+    private removeAtTags(text: string): string {
+        const result = text.replace(GifBot.atTagRegex, '');
+        return result;
     }
 }
