@@ -15,20 +15,22 @@
                 {
                     "type": "Image",
                     "url": "https://media.giphy.com/media/9rapIAIy6t2Xb0XU4Q/giphy.gif"
-                },
-                {
-                    "type": "Action.Submit",
-                    "title": "Delete Image",
-                    "data": {
-                        "msteams": {
-                            "displayText": "delete display text",
-                            "text": "delete",
-                            "type": "messageBack",
-                            "value": {}
-                        }
-                    }
                 }
             ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Delete Image",
+            "data": {
+                "msteams": {
+                    "displayText": "delete display text",
+                    "text": "delete",
+                    "type": "messageBack",
+                    "value": {}
+                }
+            }
         }
     ]
 }

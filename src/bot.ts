@@ -74,7 +74,7 @@ export class GifBot {
     private generateGiphyCardResponse(cardTitle: string, giphyUrl: string): Partial<Activity> {
         card.body[0].items[0].text = cardTitle;
         card.body[0].items[1].url = giphyUrl;
-        card.body[0].items[2].data.msteams.value = {
+        card.actions[0].data.msteams.value = {
             giphyAction: GiphyAction.Delete,
         };
 
