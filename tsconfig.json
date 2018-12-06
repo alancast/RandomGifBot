@@ -1,12 +1,13 @@
 {
-    "compilerOptions": {
-      "composite": true,
-      "declaration": true,
-      "target": "es2016",
-      "module": "commonjs",
-      "outDir": "./lib",
-      "resolveJsonModule": true,
-      "rootDir": "./src",
-      "sourceMap": true
-    }
-  }
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "./lib",
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "sourceMap": true
+  },
+  "include": ["src/**/*", "resources/**/*.json"]
+}

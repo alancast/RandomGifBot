@@ -1,0 +1,34 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "",
+                    "weight": "bolder",
+                    "size": "medium"
+                },
+                {
+                    "type": "Image",
+                    "url": ""
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Delete Image",
+            "data": {
+                "msteams": {
+                    "type": "messageBack",
+                    "value": {}
+                }
+            }
+        }
+    ]
+}

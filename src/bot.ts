@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 // bot.js is the main entry point to handle incoming activities.
-
 import { Activity, ActivityTypes, CardFactory, MessageFactory, TurnContext } from 'botbuilder';
+import * as card from '../resources/card.json';
 import { GiphyAction } from './giphyAction';
-import { GiphyCardAction } from './giphyCardAction';
 import { GiphyService } from './giphyService';
 
 export class GifBot {
@@ -72,10 +71,13 @@ export class GifBot {
     }
 
     private generateGiphyCardResponse(cardTitle: string, giphyUrl: string): Partial<Activity> {
-        const cardAttachment = CardFactory.heroCard(
-            cardTitle,
-            [giphyUrl],
-            [GiphyCardAction.deleteCardAction]);
+        card.body[0].items[0].text = cardTitle;
+        card.body[0].items[1].url = giphyUrl;
+        card.actions[0].data.msteams.value = {
+            giphyAction: GiphyAction.Delete,
+        };
+
+        const cardAttachment = CardFactory.adaptiveCard(card);
 
         const reply = MessageFactory.attachment(cardAttachment);
 
