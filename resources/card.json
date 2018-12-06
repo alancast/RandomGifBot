@@ -18,7 +18,7 @@
                 },
                 {
                     "type": "Action.Submit",
-                    "title": "Delete",
+                    "title": "Delete Image",
                     "data": {
                         "msteams": {
                             "type": "messageBack",
