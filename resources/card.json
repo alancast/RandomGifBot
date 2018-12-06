@@ -8,13 +8,13 @@
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "Publish Adaptive Card schema",
+                    "text": "",
                     "weight": "bolder",
                     "size": "medium"
                 },
                 {
                     "type": "Image",
-                    "url": "https://media.giphy.com/media/9rapIAIy6t2Xb0XU4Q/giphy.gif"
+                    "url": ""
                 }
             ]
         }

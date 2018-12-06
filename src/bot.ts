@@ -5,7 +5,6 @@
 import { Activity, ActivityTypes, CardFactory, MessageFactory, TurnContext } from 'botbuilder';
 import * as card from '../resources/card.json';
 import { GiphyAction } from './giphyAction';
-import { GiphyCardAction } from './giphyCardAction';
 import { GiphyService } from './giphyService';
 
 export class GifBot {
