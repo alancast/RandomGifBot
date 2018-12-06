@@ -21,6 +21,8 @@
                     "title": "Delete Image",
                     "data": {
                         "msteams": {
+                            "displayText": "delete display text",
+                            "text": "delete",
                             "type": "messageBack",
                             "value": {}
                         }

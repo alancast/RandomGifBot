@@ -78,7 +78,7 @@ export class GifBot {
             giphyAction: GiphyAction.Delete,
         };
 
-        console.log(card);
+        console.log(JSON.stringify(card));
 
         const cardAttachment = CardFactory.adaptiveCard(card);
 
