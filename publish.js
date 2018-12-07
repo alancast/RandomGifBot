@@ -6,9 +6,9 @@ const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
 var rootFolder = path.resolve('.');
-var zipPath = path.resolve(rootFolder, '../randomgifbot-a537.zip');
-var kuduApi = 'https://randomgifbot-a537.scm.azurewebsites.net/api/zip/site/wwwroot';
-var userName = '$randomgifbot-a537';
+var zipPath = path.resolve(rootFolder, '../GifBot.zip');
+var kuduApi = 'https://GifBot.scm.azurewebsites.net/api/zip/site/wwwroot';
+var userName = '$GifBot';
 var password = process.env.kuduPassword;
 
 function uploadZip(callback) {
@@ -50,8 +50,8 @@ function publish(callback) {
 
 publish(function(err) {
     if (!err) {
-        console.log('randomgifbot-a537 publish');
+        console.log('GifBot publish');
     } else {
-        console.error('failed to publish randomgifbot-a537', err);
+        console.error('failed to publish GifBot', err);
     }
 });
