@@ -9,6 +9,7 @@
                 {
                     "type": "TextBlock",
                     "text": "",
+                    "wrap": true,
                     "weight": "bolder",
                     "size": "medium"
                 },

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "type": "AdaptiveCard",
+  "body": [
+      {
+          "type": "Container",
+          "items": [
+              {
+                  "type": "TextBlock",
+                  "size": "default",
+                  "weight": "default",
+                  "wrap": true,
+                  "text": "Hi! To get a random gif, try something like **@Gifbot puppy**. Need more help?"
+              }
+          ]
+      }
+  ],
+  "actions": [
+      {
+          "type": "Action.OpenUrl",
+          "title": "Learn More",
+          "url": "https://github.com/alancast/RandomGifBot"
+      }
+  ]
+}
