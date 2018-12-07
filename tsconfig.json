@@ -10,9 +10,6 @@
     "rootDir": ".",
     "sourceMap": true
   },
-  "files": [
-    "resources/card.json"
-  ],
   "include":[
     "src/**/*", 
     "resources/**/*.json"
