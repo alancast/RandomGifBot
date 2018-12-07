@@ -91,8 +91,6 @@ export class GifBot {
         };
 
         const cardAttachment = CardFactory.adaptiveCard(gifCard);
-        console.log(JSON.stringify(cardAttachment));
-
         const reply = MessageFactory.attachment(cardAttachment);
 
         return reply;
