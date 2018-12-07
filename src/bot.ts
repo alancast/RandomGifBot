@@ -58,7 +58,7 @@ export class GifBot {
         const rawText = message.text;
         const cleanedText = this.cleanInputString(rawText);
 
-        if (cleanedText === '' || cleanedText.toUpperCase() === 'help'.toUpperCase()) {
+        if ((!cleanedText) || cleanedText.toUpperCase() === 'help'.toUpperCase()) {
           await this.sendHelpResponse(turnContext);
         } else {
           await this.sendGiphyResponse(turnContext, message, cleanedText);
@@ -75,7 +75,7 @@ export class GifBot {
       const giphyUrl = await this.giphyService.getRandomGifUrl(query);
 
       if (giphyUrl) {
-        const cardTitle: string = `Random GIF for "${query}" as requested by ${message.from.name}`;
+        const cardTitle: string = `Random GIF for **${query}** as requested by ${message.from.name}`;
         const reply = this.generateGiphyCardResponse(cardTitle, giphyUrl);
         await turnContext.sendActivity(reply);
       } else {
@@ -91,6 +91,7 @@ export class GifBot {
         };
 
         const cardAttachment = CardFactory.adaptiveCard(gifCard);
+        console.log(JSON.stringify(cardAttachment));
 
         const reply = MessageFactory.attachment(cardAttachment);
 
