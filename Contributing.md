@@ -10,6 +10,7 @@ All contributions should be thoroughly tested and submitted through a pull reque
 
 - Download this GitHub repo
 - Create a file called .env in the root of the project and add botFilePath, botFileSecret, giphyApiKey, and kuduPassword to it
+
   - If you have access to our Azure Resource Group you can find these values in the Azure App Service application settings
   - (more likely) If you do not have access to our Resource Group you will need to create your own Azure Web Bot, grab it's values and then use this repo as the source code. You will also need to get your own giphyApi key
   - Your .env file should look like this
@@ -30,8 +31,14 @@ All contributions should be thoroughly tested and submitted through a pull reque
 
 - Install the Bot Framework Emulator from [here](https://aka.ms/botframework-emulator)
 
+Not all of our functionality can be tested through the Bot Framework Emulator. Currently the delete functionality can only be tested in teams because it uses a `messageBack` action that is not supported by the emulator. If you want to help us out and add that to the emulator that would be awesome :-).
+
 #### Connect to bot using Bot Framework Emulator v4
 
 - Launch the Bot Framework Emulator
 - File -> Open bot and navigate to the bot project folder
 - Select `<your-bot-name>.bot` file
+
+### Test bot in Microsoft Teams
+
+To upload and test your custom build into Microsoft Teams follow [these](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload) instructions.
