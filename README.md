@@ -1,8 +1,11 @@
 # GifBot
 
-GifBot is your cute little bot friend who gives your team random GIFs. GifBot is developed in TypeScript, hosted on Azure, and uses Giphy as it's back end. It can be connected to a variety of things, but it's main use case is Microsoft Teams. This is also the app it is most thoroughly tested in (not a coincidence).
+GifBot is your cute little bot friend who gives your team random GIFs. GifBot is developed in TypeScript, hosted on Azure, and uses Giphy as its back end. It can be connected to a variety of things, but its main use case is Microsoft Teams. This is also the app it is most thoroughly tested in (not a coincidence).
 
 ## How to use GifBot
+
+First off, here is what a GifBot message will look like in Teams:
+![picture](docs/GifBotScreenshot.png)
 
 - To summon a GIF:
 
