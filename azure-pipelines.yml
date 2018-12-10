@@ -16,3 +16,15 @@ steps:
     npm install --production
     npm run build
   displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: |
+      lib/**
+      web.config
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy necessary build files'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts'
