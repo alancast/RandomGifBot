@@ -2,6 +2,14 @@
 
 GifBot is an open source project and contributions are welcome!
 
+- [Contributing](#Contributing)
+  - [How to submit contributions](#How-to-submit-contributions)
+  - [Instructions to run GifBot locally](#Instructions-to-run-GifBot-locally)
+    - [Testing the bot using Bot Framework Emulator](#Testing-the-bot-using-Bot-Framework-Emulator)
+      - [Connect to bot using Bot Framework Emulator v4](#Connect-to-bot-using-Bot-Framework-Emulator-v4)
+    - [Test bot in Microsoft Teams](#Test-bot-in-Microsoft-Teams)
+  - [Deployment](#Deployment)
+
 ## How to submit contributions
 
 All contributions should be thoroughly tested and submitted through a pull request. The pull request title should reflect the work accomplished, and the description should provide more context on what, why, and how. Bonus points of the pull request is set up following [these](https://chris.beams.io/posts/git-commit/) git guidelines.
@@ -14,6 +22,7 @@ All contributions should be thoroughly tested and submitted through a pull reque
   - If you have access to our Azure Resource Group you can find these values in the Azure App Service application settings
   - (more likely) If you do not have access to our Resource Group you will need to create your own Azure Web Bot, grab it's values and then use this repo as the source code. You will also need to get your own giphyApi key
   - Your .env file should look like this
+
     ```bash
     botFilePath=<copy value from App settings>
     botFileSecret=<copy value from App settings>
@@ -22,6 +31,7 @@ All contributions should be thoroughly tested and submitted through a pull reque
     ```
 
 - Create the `.bot` file. Either download the `.bot` file from our Azure resource if you have access, or use the one from your created bot above
+  - To get it from our Azure resource click on the App Service. Then under `Development Tools` click `Advanced Tools` (this is a Kudu link). Then click `Debug Console` and navigate to `/site/wwwroot/` and the .Bot file has been uploaded there
 - Run `npm install` in the root of the bot project
 - Finally run `npm run build` and then `npm start`
 
@@ -42,3 +52,7 @@ Not all of our functionality can be tested through the Bot Framework Emulator. C
 ### Test bot in Microsoft Teams
 
 To upload and test your custom build into Microsoft Teams follow [these](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload) instructions.
+
+## Deployment
+
+Currently GifBot has continuous deployment setup for every check into master of this repo.
