@@ -4,5 +4,8 @@ lib/
 *.js.map
 .env
 
-# Files to readd later once we figure out how to deal with the secrets
+# Mac files
+.DS_Store
+
+# Files to re-add later once we figure out how to deal with the secrets
 RandomGifBot.bot
