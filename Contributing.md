@@ -2,6 +2,14 @@
 
 GifBot is an open source project and contributions are welcome!
 
+- [Contributing](#Contributing)
+  - [How to submit contributions](#How-to-submit-contributions)
+  - [Instructions to run GifBot locally](#Instructions-to-run-GifBot-locally)
+    - [Testing the bot using Bot Framework Emulator](#Testing-the-bot-using-Bot-Framework-Emulator)
+      - [Connect to bot using Bot Framework Emulator v4](#Connect-to-bot-using-Bot-Framework-Emulator-v4)
+    - [Test bot in Microsoft Teams](#Test-bot-in-Microsoft-Teams)
+  - [Deployment](#Deployment)
+
 ## How to submit contributions
 
 All contributions should be thoroughly tested and submitted through a pull request. The pull request title should reflect the work accomplished, and the description should provide more context on what, why, and how. Bonus points of the pull request is set up following [these](https://chris.beams.io/posts/git-commit/) git guidelines.
@@ -44,3 +52,7 @@ Not all of our functionality can be tested through the Bot Framework Emulator. C
 ### Test bot in Microsoft Teams
 
 To upload and test your custom build into Microsoft Teams follow [these](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload) instructions.
+
+## Deployment
+
+Currently GifBot has continuous deployment setup for every check into master of this repo.
