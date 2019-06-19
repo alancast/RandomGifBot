@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 export class GiphyService {
   private static readonly giphyBaseUri: string = 'https://api.giphy.com/v1/gifs/search?api_key=';
   private static readonly giphyLimit: number = 9;
-  private static readonly giphyRating: string = 'PG';
+  private static readonly giphyRating: string = 'pg';
 
   private static randomGifIndex(arraySize: number) {
     return Math.floor(Math.random() * arraySize);
