@@ -14,6 +14,7 @@ All contributions should be thoroughly tested and submitted through a pull reque
   - If you have access to our Azure Resource Group you can find these values in the Azure App Service application settings
   - (more likely) If you do not have access to our Resource Group you will need to create your own Azure Web Bot, grab it's values and then use this repo as the source code. You will also need to get your own giphyApi key
   - Your .env file should look like this
+
     ```bash
     botFilePath=<copy value from App settings>
     botFileSecret=<copy value from App settings>
@@ -22,6 +23,7 @@ All contributions should be thoroughly tested and submitted through a pull reque
     ```
 
 - Create the `.bot` file. Either download the `.bot` file from our Azure resource if you have access, or use the one from your created bot above
+  - To get it from our Azure resource click on the App Service. Then under `Development Tools` click `Advanced Tools` (this is a Kudu link). Then click `Debug Console` and navigate to `/site/wwwroot/` and the .Bot file has been uploaded there
 - Run `npm install` in the root of the bot project
 - Finally run `npm run build` and then `npm start`
 
